@@ -106,11 +106,7 @@ public class Indicium {
     private boolean isComplete(int[][] matrix, int n, int k) {
         int trace = 0;
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i == j) {
-                    trace += matrix[i][j];
-                }
-            }
+            trace += matrix[i][i];
         }
         return trace == k;
     }
