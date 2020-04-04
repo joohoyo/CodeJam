@@ -56,22 +56,20 @@ public class Indicium {
             return;
         }
 
-        if (count == n * n && isComplete(matrix, n, k)) {
-            this.complete = true;
-            this.answer = new int[n][n];
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    this.answer[i][j] = matrix[i][j];
+        if (count == n * n) {
+            if (isComplete(matrix, n, k)) {
+                this.complete = true;
+                this.answer = new int[n][n];
+                for (int i = 0; i < n; i++) {
+                    for (int j = 0; j < n; j++) {
+                        this.answer[i][j] = matrix[i][j];
+                    }
                 }
             }
             return;
         }
 
-        int[] xy = getXY(matrix, n);
-        if (xy[0] == -1) {
-            return;
-        }
-
+        int[] xy = new int[]{count / n, count % n};
         for (int i = 1; i <= n; i++) {
             if (this.complete) {
                 return;
@@ -81,7 +79,6 @@ public class Indicium {
                 backtracking(matrix, n, k, count + 1);
             }
             matrix[xy[0]][xy[1]] = 0;
-
         }
     }
 
@@ -92,11 +89,8 @@ public class Indicium {
             columns[matrix[xy[0]][j]]++;
             rows[matrix[j][xy[1]]]++;
         }
-        for (int i = 1; i < n + 1; i++) {
-            if (columns[i] > 1) {
-                return false;
-            }
-            if (rows[i] > 1) {
+        for (int j = 1; j < n + 1; j++) {
+            if (columns[j] > 1 || rows[j] > 1) {
                 return false;
             }
         }
@@ -109,17 +103,6 @@ public class Indicium {
             trace += matrix[i][i];
         }
         return trace == k;
-    }
-
-    private int[] getXY(int[][] matrix, int n) {
-        for (int x = 0; x < n; x++) {
-            for (int y = 0; y < n; y++) {
-                if (matrix[x][y] == 0) {
-                    return new int[]{x, y};
-                }
-            }
-        }
-        return new int[]{-1, -1};
     }
 
     int[][] getAnswer() {
